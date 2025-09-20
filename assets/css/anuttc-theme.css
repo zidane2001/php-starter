@@ -1,0 +1,200 @@
+/* ANUTTC Theme Colors based on Logo */
+:root {
+    --anuttc-primary: #8B6914; /* Marron/Bronze du logo */
+    --anuttc-primary-dark: #6B4F0F; /* Version plus foncée */
+    --anuttc-primary-light: #AB8934; /* Version plus claire */
+    --anuttc-secondary: #D4A574; /* Marron clair */
+    --anuttc-accent: #F5E6D3; /* Beige clair */
+    --anuttc-text: #4A3C28; /* Marron foncé pour texte */
+    --anuttc-gray: #6B7280; /* Gris pour texte secondaire */
+    --anuttc-white: #FFFFFF;
+    --anuttc-background: #FAF8F5; /* Fond légèrement teinté */
+}
+
+/* Logo styles */
+.anuttc-logo {
+    max-height: 80px;
+    width: auto;
+}
+
+.anuttc-logo-large {
+    max-height: 120px;
+    width: auto;
+}
+
+/* Header styles */
+.anuttc-header {
+    background: linear-gradient(135deg, var(--anuttc-primary) 0%, var(--anuttc-primary-dark) 100%);
+    color: var(--anuttc-white);
+    box-shadow: 0 2px 10px rgba(139, 105, 20, 0.2);
+}
+
+/* Button styles */
+.btn-anuttc {
+    background-color: var(--anuttc-primary);
+    color: var(--anuttc-white);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-anuttc:hover {
+    background-color: var(--anuttc-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
+}
+
+.btn-anuttc-outline {
+    background-color: transparent;
+    color: var(--anuttc-primary);
+    border: 2px solid var(--anuttc-primary);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-anuttc-outline:hover {
+    background-color: var(--anuttc-primary);
+    color: var(--anuttc-white);
+}
+
+/* Card styles */
+.anuttc-card {
+    background: var(--anuttc-white);
+    border: 1px solid rgba(139, 105, 20, 0.1);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(139, 105, 20, 0.08);
+    transition: all 0.3s ease;
+}
+
+.anuttc-card:hover {
+    box-shadow: 0 8px 24px rgba(139, 105, 20, 0.15);
+    transform: translateY(-4px);
+}
+
+/* Form styles */
+.anuttc-input {
+    border: 2px solid rgba(139, 105, 20, 0.2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    width: 100%;
+    transition: all 0.3s ease;
+    background-color: var(--anuttc-white);
+}
+
+.anuttc-input:focus {
+    border-color: var(--anuttc-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.1);
+}
+
+.anuttc-label {
+    color: var(--anuttc-text);
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Alert styles */
+.anuttc-alert {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.anuttc-alert-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #6EE7B7;
+}
+
+.anuttc-alert-error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border: 1px solid #FCA5A5;
+}
+
+.anuttc-alert-info {
+    background-color: var(--anuttc-accent);
+    color: var(--anuttc-text);
+    border: 1px solid var(--anuttc-secondary);
+}
+
+/* Progress bar */
+.anuttc-progress {
+    background-color: rgba(139, 105, 20, 0.1);
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.anuttc-progress-bar {
+    background: linear-gradient(90deg, var(--anuttc-primary) 0%, var(--anuttc-primary-light) 100%);
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+/* Badge styles */
+.anuttc-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.anuttc-badge-primary {
+    background-color: var(--anuttc-primary);
+    color: var(--anuttc-white);
+}
+
+.anuttc-badge-secondary {
+    background-color: var(--anuttc-secondary);
+    color: var(--anuttc-text);
+}
+
+/* Table styles */
+.anuttc-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.anuttc-table thead {
+    background-color: var(--anuttc-accent);
+}
+
+.anuttc-table th {
+    padding: 12px;
+    text-align: left;
+    color: var(--anuttc-text);
+    font-weight: 600;
+    border-bottom: 2px solid var(--anuttc-primary);
+}
+
+.anuttc-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(139, 105, 20, 0.1);
+}
+
+.anuttc-table tr:hover {
+    background-color: rgba(139, 105, 20, 0.05);
+}
+
+/* Utility classes */
+.text-anuttc-primary {
+    color: var(--anuttc-primary) !important;
+}
+
+.bg-anuttc-primary {
+    background-color: var(--anuttc-primary) !important;
+}
+
+.border-anuttc-primary {
+    border-color: var(--anuttc-primary) !important;
+}
