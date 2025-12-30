@@ -1,75 +1,92 @@
 <?php
+// Allow CORS and preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+    header("Access-Control-Max-Age: 86400");
+    http_response_code(200);
+    exit();
+}
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+// Include Database and Parcelle model
 include_once '../config/Database.php';
 include_once '../models/Parcelle.php';
 
-// Connexion à la base
+// Connect to database
 $database = new Database();
 $db = $database->getConnection();
+$parcelle = new Parcelle($db);
 
-// Vérification de l'action
-$action = isset($_GET['action']) ? $_GET['action'] : '';
+// Get action
+$action = $_GET['action'] ?? '';
 
-if ($action === 'get_parcelles_by_type') {
-    
-    $operation_id = isset($_GET['operation_id']) ? $_GET['operation_id'] : '';
-    $type_parcelle_id = isset($_GET['type_parcelle_id']) ? $_GET['type_parcelle_id'] : '';
+try {
 
-    if (!empty($operation_id) && !empty($type_parcelle_id)) {
-        
-        $parcelle = new Parcelle($db);
-        $stmt = $parcelle->readByType($operation_id, $type_parcelle_id);
-        $num = $stmt->rowCount();
+    switch ($action) {
 
-        
+        case 'get_parcelles_by_type':
+            $type_id = isset($_GET['type_id']) ? intval($_GET['type_id']) : null;
+            $stmt = $parcelle->readByType($type_id);
+            $num = $stmt->rowCount();
 
-        if ($num > 0) {
-            $parcelles_arr = array();
-            $parcelles_arr["success"] = true;
-            $parcelles_arr["parcelles"] = array();
+            $parcelles_arr = ["success" => true, "parcelles" => []];
 
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                extract($row);
-
-                $parcelle_item = array(
-                    "id"            => $id,
-                    "section"       => $section,
-                    "lot"           => $lot,
-                    "parcelle"      => $parcelle,
-                    "surface"       => isset($surface) ? (float)$surface : 0,
-                    "cout_unitaire" => isset($cout_unitaire) ? (float)$cout_unitaire : 0,
-                    "prix"          => isset($prix) ? (float)$prix : 0,
-                    "zone_nom"      => $zone_nom ?? ""
-                );
-
-                $parcelles_arr["parcelles"][] = $parcelle_item;
+            if ($num > 0) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $parcelle_item = [
+                        "id"            => $id,
+                        "section"       => $section,
+                        "lot"           => $lot,
+                        "parcelle"      => $parcelle,
+                        "surface"       => isset($surface) ? (float)$surface : 0,
+                        "cout_unitaire" => isset($cout_unitaire) ? (float)$cout_unitaire : 0,
+                        "prix"          => isset($prix) ? (float)$prix : 0,
+                        "zone_nom"      => $zone_nom ?? ""
+                    ];
+                    $parcelles_arr["parcelles"][] = $parcelle_item;
+                }
             }
 
             echo json_encode($parcelles_arr, JSON_UNESCAPED_UNICODE);
+            break;
 
-        } else {
-            echo json_encode(array(
-                "success" => false,
-                "message" => "Aucune parcelle trouvée pour ce type et cette opération."
-            ), JSON_UNESCAPED_UNICODE);
-        }
+        case 'verifier_timer_parcelle':
+            $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+            $session_id = $_GET['session_id'] ?? '';
 
-    } else {
-        echo json_encode(array(
-            "success" => false,
-            "message" => "Paramètres manquants (operation_id et type_parcelle_id)."
-        ), JSON_UNESCAPED_UNICODE);
+            if ($id <= 0) {
+                echo json_encode(["success" => false, "message" => "ID de parcelle invalide."]);
+                exit;
+            }
+
+            if (!method_exists($parcelle, 'verifierTimer')) {
+                echo json_encode(["success" => false, "message" => "Méthode verifierTimer non définie."]);
+                exit;
+            }
+
+            // Call verifierTimer and ensure it returns structured array
+            $result = $parcelle->verifierTimer($id, $session_id);
+
+            // Example of expected result: ['time_expired' => false, 'remaining_time' => 900, 'other_session' => false]
+            if (is_array($result)) {
+                echo json_encode(array_merge(["success" => true], $result), JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode(["success" => false, "message" => "La vérification a échoué."], JSON_UNESCAPED_UNICODE);
+            }
+
+            break;
+
+        default:
+            echo json_encode(["success" => false, "message" => "Action non spécifiée ou non valide."], JSON_UNESCAPED_UNICODE);
+            break;
     }
 
-} else {
-    echo json_encode(array(
-        "success" => false,
-        "message" => "Action non spécifiée ou non valide."
-    ), JSON_UNESCAPED_UNICODE);
+} catch (\Throwable $e) {
+    echo json_encode(["success" => false, "message" => "Erreur serveur: " . $e->getMessage()], JSON_UNESCAPED_UNICODE);
 }
 ?>

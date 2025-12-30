@@ -3,7 +3,6 @@ class Parcelle {
     private $conn;
     private $table_name = "parcelles";
 
-    // Propriétés
     public $id;
     public $section;
     public $lot;
@@ -20,10 +19,8 @@ class Parcelle {
         $this->conn = $db;
     }
 
-    /**
-     * Lire les parcelles par type et opération
-     */
-     public function readByType($operation_id, $type_parcelle_id) {
+    // Lire toutes les parcelles disponibles ou par type
+    public function readByType($type_parcelle_id = null) {
         $query = "
             SELECT 
                 p.id, p.section, p.lot, p.parcelle, p.surface, 
@@ -31,32 +28,24 @@ class Parcelle {
                 p.zone_id, z.nom AS zone_nom
             FROM parcelles p
             LEFT JOIN zones z ON p.zone_id = z.id
-            WHERE p.type_parcelle_id = :type_parcelle_id
-              AND p.statut = 'disponible'
-              AND EXISTS (
-                  SELECT 1 
-                  FROM type_parcelle tp
-                  WHERE tp.id = p.type_parcelle_id
-                  AND tp.operation_id =:operation_id
-              )
+            WHERE p.statut = 'disponible'
         ";
-        
+
+        if ($type_parcelle_id !== null) {
+            $query .= " AND p.type_parcelle_id = :type_parcelle_id";
+        }
+
         $stmt = $this->conn->prepare($query);
-        
-        // Sanitize and bind parameters
-        $operation_id = htmlspecialchars(strip_tags($operation_id));
-        $type_parcelle_id = htmlspecialchars(strip_tags($type_parcelle_id));
-        
-        $stmt->bindParam(":operation_id", $operation_id, PDO::PARAM_INT);
-        $stmt->bindParam(":type_parcelle_id", $type_parcelle_id, PDO::PARAM_INT);
-        
+
+        if ($type_parcelle_id !== null) {
+            $stmt->bindParam(":type_parcelle_id", $type_parcelle_id, PDO::PARAM_INT);
+        }
+
         $stmt->execute();
         return $stmt;
     }
 
-    /**
-     * Mettre à jour le statut d'une parcelle
-     */
+    // Mettre à jour le statut
     public function updateStatus($id, $status) {
         $query = "UPDATE " . $this->table_name . " 
                   SET statut = :statut 
@@ -67,6 +56,30 @@ class Parcelle {
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
         return $stmt->execute();
+    }
+
+    // Vérifier le timer de la parcelle
+    public function verifierTimer($id, $session_id = null) {
+        $query = "SELECT id, parcelle, statut, 
+                         TIMESTAMPDIFF(SECOND, NOW(), date_expiration) AS remaining_time
+                  FROM " . $this->table_name . "
+                  WHERE id = :id
+                  LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return [
+                "id" => $row['id'],
+                "parcelle" => $row['parcelle'],
+                "statut" => $row['statut'],
+                "remaining_time" => max(0, (int)$row['remaining_time'])
+            ];
+        }
+        return false;
     }
 }
 ?>

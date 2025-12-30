@@ -1,9 +1,10 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "anuttc_db";
-    private $username = "Maximus";
-    private $password = "Maximus23";
+    private $host = "srv1790.hstgr.io";
+    private $db_name = "u558635962_anuttc";
+    private $username = "u558635962_root";
+    private $password = "Anucit237%";
+
     public $conn;
 
     public function getConnection() {
@@ -22,4 +23,5 @@ class Database {
         return $this->conn;
     }
 }
+
 ?>

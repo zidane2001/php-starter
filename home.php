@@ -4,30 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANUTTC - Agence Nationale de l'Urbanisme des Travaux Topographiques et du Cadastre</title>
+    <title>CÔTE D'IVOIRE - Agence Foncière Rurale</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.0/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/anuttc-theme.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="icon" href="assets/images/anuttc-logo.jpeg" type="image/jpeg">
-    <script>
-        // Fonction pour formater les nombres
-        function formatNumber(number) {
-            return new Intl.NumberFormat('fr-FR').format(number);
-        }
-    </script>
+    <link rel="icon" href="assets/images/logo_MCLU.png" type="image/png">
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #8B6914 0%, #6B4F0F 100%);
+            background: linear-gradient(135deg, #ff6f00a2 0%, #FF8F00 100%);
         }
 
-        .anuttc-green {
-            background-color: #8B6914;
+        .afor-orange {
+            background-color: #FF6F00;
         }
 
-        .anuttc-green-hover:hover {
-            background-color: #6B4F0F;
+        .afor-orange-light {
+            background-color: #FF8F00;
+        }
+
+        .afor-orange-hover:hover {
+            background-color: #E65100;
         }
 
         .header-scroll {
@@ -57,7 +53,7 @@
             width: 80px;
             height: 80px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #8B6914;
+            border-top: 5px solid #FF6F00;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -65,7 +61,7 @@
         .loading-text {
             margin-top: 20px;
             font-size: 18px;
-            color: #8B6914;
+            color: #FF6F00;
         }
 
         .loading-dots:after {
@@ -77,29 +73,36 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
         }
 
         @keyframes dots {
-            0%, 20% {
+
+            0%,
+            20% {
                 content: '';
             }
+
             40% {
                 content: '.';
             }
+
             60% {
                 content: '..';
             }
-            80%, 100% {
+
+            80%,
+            100% {
                 content: '...';
             }
         }
 
         /* Styles pour les boutons */
-        .btn-anuttc {
-            background-color: #8B6914;
+        .btn-afor {
+            background-color: #FF6F00;
             color: white;
             padding: 12px 24px;
             border-radius: 8px;
@@ -109,14 +112,15 @@
             display: inline-block;
         }
 
-        .btn-anuttc:hover {
-            background-color: #6B4F0F;
+        .btn-afor:hover {
+            background-color: #E65100;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 111, 0, 0.3);
         }
 
-        .btn-anuttc-outline {
-            border: 2px solid #8B6914;
-            color: #8B6914;
+        .btn-afor-outline {
+            border: 2px solid #FF6F00;
+            color: #FF6F00;
             padding: 10px 24px;
             border-radius: 8px;
             text-decoration: none;
@@ -125,15 +129,15 @@
             display: inline-block;
         }
 
-        .btn-anuttc-outline:hover {
-            background-color: #8B6914;
+        .btn-afor-outline:hover {
+            background-color: #FF6F00;
             color: white;
         }
 
-        /* Style pour la carte Google Maps - CORRECTION PRINCIPALE */
+        /* Style pour la carte Google Maps */
         .map-container {
             width: 100%;
-            height: 250px; /* Hauteur fixe raisonnable */
+            height: 250px;
             border-radius: 8px;
             overflow: hidden;
             position: relative;
@@ -145,10 +149,36 @@
             border: 0;
             border-radius: 8px;
         }
+
+        /* Icônes avec couleur orange */
+        .icon-orange {
+            color: #FF6F00;
+        }
+
+        /* Cartes avec bordures orange */
+        .card-orange {
+            border-top: 4px solid #FF6F00;
+        }
+
+        /* Badges orange */
+        .badge-orange {
+            background-color: #FFF3E0;
+            color: #FF6F00;
+        }
+
+        /* Texte orange */
+        .text-orange {
+            color: #FF6F00;
+        }
+
+        /* Arrière-plan orange clair */
+        .bg-orange-light {
+            background-color: #FFF3E0;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-white">
     <!-- Écran de chargement -->
     <div id="loading-screen" class="loading-screen" style="display: none; opacity: 0;">
         <div class="loader-container">
@@ -156,16 +186,16 @@
         </div>
     </div>
 
-    <header class="anuttc-green shadow-lg fixed w-full top-0 z-50 header-scroll">
+    <header class="afor-orange shadow-lg fixed w-full top-0 z-50 header-scroll">
         <nav class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center h-20">
                 <a href="index.php" class="flex items-center space-x-3">
-                    <img src="assets/images/anuttc-logo.jpeg" alt="Logo ANUTTC" class="h-14 w-auto">
+                    <img src="assets/images/logo_MCLU.png" alt="Logo AFOR" class="h-14 w-auto">
                 </a>
 
                 <!-- Mobile menu button -->
                 <div class="flex md:hidden">
-                    <button type="button" class="text-white hover:text-gray-300" id="mobile-menu-button">
+                    <button type="button" class="text-white hover:text-orange-200" id="mobile-menu-button">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16"></path>
@@ -175,26 +205,38 @@
 
                 <!-- Desktop menu -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="index.php" class="text-white hover:text-gray-300 transition py-2">Accueil</a>
-                    <a href="index.php?page=apropos" class="text-white hover:text-gray-300 transition py-2">À propos</a>
-                    <a href="index.php?page=souscrire" class="text-white hover:text-gray-300 transition py-2">Comment souscrire</a>
-                    <a href="index.php#pourquoi-nous" class="text-white hover:text-gray-300 transition py-2">Pourquoi nous choisir</a>
-                    <a href="index.php?page=contact" class="text-white hover:text-gray-300 transition py-2">Contact</a>
-                    <a href="index.php?page=recherche-quittance" class="text-white hover:text-gray-300 transition py-2">Rechercher une quittance</a>
-                    <a href="index.php?page=souscrire" onclick="localStorage.clear()" class="bg-white text-emerald-700 px-6 py-2 rounded-lg hover:bg-gray-100 transition font-medium">Souscrire</a>
+                    <a href="index.php" class="text-white hover:text-orange-200 transition py-2">Accueil</a>
+                    <a href="index.php?page=apropos" class="text-white hover:text-orange-200 transition py-2">À
+                        propos</a>
+                    <a href="index.php?page=souscrire" class="text-white hover:text-orange-200 transition py-2">Comment
+                        souscrire</a>
+                    <a href="index.php#pourquoi-nous" class="text-white hover:text-orange-200 transition py-2">Pourquoi
+                        nous choisir</a>
+                    <a href="index.php?page=contact"
+                        class="text-white hover:text-orange-200 transition py-2">Contact</a>
+                    <a href="index.php?page=recherche-quittance"
+                        class="text-white hover:text-orange-200 transition py-2">Rechercher une quittance</a>
+                    <a href="index.php?page=souscrire" onclick="localStorage.clear()"
+                        class="bg-white text-orange-600 px-6 py-2 rounded-lg hover:bg-orange-50 transition font-medium">Souscrire</a>
                 </div>
             </div>
 
             <!-- Mobile menu -->
             <div class="hidden md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="index.php" class="block text-white hover:bg-emerald-600 px-3 py-2 rounded-md">Accueil</a>
-                    <a href="index.php?page=apropos" class="block text-white hover:bg-emerald-600 px-3 py-2 rounded-md">À propos</a>
-                    <a href="index.php?page=souscrire" class="block text-white hover:bg-emerald-600 px-3 py-2 rounded-md">Comment souscrire</a>
-                    <a href="index.php#pourquoi-nous" class="block text-white hover:bg-emerald-600 px-3 py-2 rounded-md">Pourquoi nous choisir</a>
-                    <a href="index.php?page=contact" class="block text-white hover:bg-emerald-600 px-3 py-2 rounded-md">Contact</a>
-                    <a href="index.php?page=recherche-quittance" class="block text-white hover:bg-emerald-600 px-3 py-2 rounded-md">Rechercher une quittance</a>
-                    <a onclick="localStorage.clear()" href="index.php?page=souscrire" class="block bg-white text-emerald-700 px-3 py-2 rounded-md mt-4 text-center">Souscrire</a>
+                    <a href="index.php" class="block text-white hover:bg-orange-600 px-3 py-2 rounded-md">Accueil</a>
+                    <a href="index.php?page=apropos" class="block text-white hover:bg-orange-600 px-3 py-2 rounded-md">À
+                        propos</a>
+                    <a href="index.php?page=souscrire"
+                        class="block text-white hover:bg-orange-600 px-3 py-2 rounded-md">Comment souscrire</a>
+                    <a href="index.php#pourquoi-nous"
+                        class="block text-white hover:bg-orange-600 px-3 py-2 rounded-md">Pourquoi nous choisir</a>
+                    <a href="index.php?page=contact"
+                        class="block text-white hover:bg-orange-600 px-3 py-2 rounded-md">Contact</a>
+                    <a href="index.php?page=recherche-quittance"
+                        class="block text-white hover:bg-orange-600 px-3 py-2 rounded-md">Rechercher une quittance</a>
+                    <a onclick="localStorage.clear()" href="index.php?page=souscrire"
+                        class="block bg-white text-orange-600 px-3 py-2 rounded-md mt-4 text-center">Souscrire</a>
                 </div>
             </div>
         </nav>
@@ -206,58 +248,66 @@
         <!-- Section Hero -->
         <section id="accueil" class="flex flex-col md:flex-row items-center justify-between py-16 md:py-24">
             <div class="md:w-1/2 mb-10 md:mb-0">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Réservez votre parcelle ANUTTC en ligne</h1>
-                <p class="text-lg text-gray-600 mb-8">Accédez à la propriété foncière simplement et rapidement. Notre plateforme vous permet de souscrire à une parcelle depuis le confort de votre domicile.</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Réservez votre parcelle CÔTE D'IVOIRE en ligne</h1>
+                <p class="text-lg text-gray-600 mb-8">Accédez à la propriété foncière simplement et rapidement en Côte
+                    d'Ivoire.
+                    Notre plateforme vous permet de souscrire à une parcelle depuis le confort de votre domicile.</p>
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="index.php?page=souscrire" class="btn-anuttc">
+                    <a href="index.php?page=souscrire" class="btn-afor">
                         <i class="fas fa-home mr-2"></i>Souscrire maintenant
                     </a>
-                    <a href="#comment-souscrire" class="btn-anuttc-outline">
+                    <a href="#comment-souscrire" class="btn-afor-outline">
                         <i class="fas fa-info-circle mr-2"></i>En savoir plus
                     </a>
                 </div>
             </div>
             <div class="md:w-1/2">
-                <img src="assets/images/hero-image.jpg" alt="Terrains ANUTTC" class="rounded-lg shadow-xl w-full">
+                <img src="assets/images/AFOR3.png" alt="Terrains AFOR" class="rounded-lg shadow-xl w-full">
             </div>
         </section>
 
         <!-- Section Opérations -->
-        <section class="py-12 md:py-20 bg-gray-50 -mx-4 px-4">
+        <section class="py-12 md:py-20 bg-orange-50 -mx-4 px-4">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-3xl font-bold text-center mb-12">Opérations en cours</h2>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                        <img src="assets/images/libreville.jpg" alt="Vente de parcelles - Grand Libreville" class="w-full h-48 object-cover">
+                    <div
+                        class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 card-orange">
+                        <img src="assets/images/terrain1.jpg" alt="Vente de parcelles - Abidjan"
+                            class="w-full h-48 object-cover">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Vente de parcelles - Grand Libreville</h3>
-                            <p class="text-gray-600 mb-4">Grand Libreville</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Vente de parcelles - Abidjan</h3>
+                            <p class="text-gray-600 mb-4">Abidjan</p>
                             <div class="flex justify-between items-center">
-                                <span class="text-green-600 font-semibold">50 000 FCFA</span>
-                                <a href="index.php?page=souscrire&operation=9" class="btn-anuttc text-sm">Souscrire</a>
+                                <span class="text-orange-600 font-semibold">50 000 FCFA</span>
+                                <a href="index.php?page=souscrire&operation=1" class="btn-afor text-sm">Souscrire</a>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                        <img src="assets/images/port-gentil.jpg" alt="Vente de parcelles - Okolassi" class="w-full h-48 object-cover">
+                    <div
+                        class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 card-orange">
+                        <img src="assets/images/A vendre un terrain sur le prolongement de VDN à….jpeg" alt="Vente de parcelles - Bouaké"
+                            class="w-full h-48 object-cover">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Vente de parcelles - Okolassi</h3>
-                            <p class="text-gray-600 mb-4">Okolassi</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Vente de parcelles - Bouaké</h3>
+                            <p class="text-gray-600 mb-4">Bouaké</p>
                             <div class="flex justify-between items-center">
-                                <span class="text-green-600 font-semibold">50 000 FCFA</span>
-                                <a href="index.php?page=souscrire&operation=10" class="btn-anuttc text-sm">Souscrire</a>
+                                <span class="text-orange-600 font-semibold">50 000 FCFA</span>
+                                <a href="index.php?page=souscrire&operation=2" class="btn-afor text-sm">Souscrire</a>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                        <img src="assets/images/franceville.jpg" alt="Vente de parcelles - Bolokoboué" class="w-full h-48 object-cover">
+                    <div
+                        class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 card-orange">
+                        <img src="assets/images/terrain2.jpg"
+                            alt="Vente de parcelles - Korhogo" class="w-full h-48 object-cover">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Vente de parcelles - Bolokoboué</h3>
-                            <p class="text-gray-600 mb-4">Bolokoboué</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Vente de parcelles - Korhogo</h3>
+                            <p class="text-gray-600 mb-4">Korhogo</p>
                             <div class="flex justify-between items-center">
-                                <span class="text-green-600 font-semibold">50 000 FCFA</span>
-                                <a href="index.php?page=souscrire&operation=11" class="btn-anuttc text-sm">Souscrire</a>
+                                <span class="text-orange-600 font-semibold">50 000 FCFA</span>
+                                <a href="index.php?page=souscrire&operation=3" class="btn-afor text-sm">Souscrire</a>
                             </div>
                         </div>
                     </div>
@@ -268,33 +318,43 @@
         <!-- Section À propos -->
         <section id="apropos" class="py-12 md:py-20">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl font-bold text-center mb-12">À propos d'ANUTTC</h2>
+                <h2 class="text-3xl font-bold text-center mb-12">À propos de CÔTE D'IVOIRE</h2>
 
                 <div class="flex flex-col md:flex-row items-center gap-12">
                     <div class="md:w-1/2">
-                        <img src="assets/images/about-image.jpg" alt="ANUTTC" class="rounded-lg shadow-xl w-full">
+                        <img src="assets/images/AFOR1.png" alt="CÔTE D'IVOIRE" class="rounded-lg shadow-xl w-full">
                     </div>
                     <div class="md:w-1/2">
                         <h3 class="text-2xl font-bold text-gray-800 mb-4">Notre mission</h3>
                         <p class="text-gray-600 mb-6">
-                            L'Agence Nationale d'Urbanisme et de Travaux de Terrassement et de Construction (ANUTTC) a pour mission principale de faciliter l'accès à la propriété foncière à travers l'aménagement et la commercialisation de parcelles viabilisées.
+                            CÔTE D'IVOIRE a pour mission principale de
+                            faciliter l'accès à la propriété foncière rurale à travers l'aménagement et la
+                            commercialisation de
+                            parcelles viabilisées dans les zones rurales ivoiriennes.
                         </p>
                         <p class="text-gray-600 mb-6">
-                            Créée en 1997, ANUTTC œuvre pour la promotion immobilière et l'aménagement urbain au Gabon. Notre expertise nous permet de proposer des terrains adaptés à tous les projets, qu'ils soient résidentiels ou professionnels.
+                            Sous la tutelle du Ministère de l'Agriculture et du Développement Rural, CÔTE D'IVOIRE œuvre pour la
+                            promotion
+                            du développement rural et l'aménagement foncier en Côte d'Ivoire. Notre expertise nous
+                            permet de proposer des
+                            terrains adaptés à tous les projets agricoles et résidentiels en milieu rural.
                         </p>
                         <div class="space-y-4">
                             <div class="flex items-start">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-green-600"></i>
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-orange-600"></i>
                                 </div>
                                 <div class="ml-4">
-                                    <h4 class="text-lg font-medium text-gray-800">Terrains viabilisés</h4>
-                                    <p class="text-gray-600">Parcelles prêtes à construire avec accès aux réseaux essentiels</p>
+                                    <h4 class="text-lg font-medium text-gray-800">Terrains ruraux viabilisés</h4>
+                                    <p class="text-gray-600">Parcelles prêtes à l'exploitation avec accès aux réseaux
+                                        essentiels</p>
                                 </div>
                             </div>
                             <div class="flex items-start">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                    <i class="fas fa-file-signature text-green-600"></i>
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <i class="fas fa-file-signature text-orange-600"></i>
                                 </div>
                                 <div class="ml-4">
                                     <h4 class="text-lg font-medium text-gray-800">Sécurité juridique</h4>
@@ -302,12 +362,14 @@
                                 </div>
                             </div>
                             <div class="flex items-start">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                    <i class="fas fa-handshake text-green-600"></i>
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <i class="fas fa-handshake text-orange-600"></i>
                                 </div>
                                 <div class="ml-4">
                                     <h4 class="text-lg font-medium text-gray-800">Accompagnement personnalisé</h4>
-                                    <p class="text-gray-600">Suivi administratif et technique tout au long de votre projet</p>
+                                    <p class="text-gray-600">Suivi administratif et technique tout au long de votre
+                                        projet</p>
                                 </div>
                             </div>
                         </div>
@@ -317,46 +379,50 @@
         </section>
 
         <!-- Section Comment souscrire -->
-        <section id="comment-souscrire" class="py-12 md:py-20 bg-gray-50 -mx-4 px-4">
+        <section id="comment-souscrire" class="py-12 md:py-20 bg-orange-50 -mx-4 px-4">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-3xl font-bold text-center mb-12">Comment souscrire à une parcelle</h2>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div class="bg-green-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
-                            <span class="text-2xl font-bold text-green-600">1</span>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center card-orange">
+                        <div class="bg-orange-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
+                            <span class="text-2xl font-bold text-orange-600">1</span>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Choisissez un site</h3>
-                        <p class="text-gray-600">Sélectionnez l'opération qui correspond à vos besoins parmi nos différents sites disponibles.</p>
+                        <p class="text-gray-600">Sélectionnez l'opération qui correspond à vos besoins parmi nos
+                            différents sites disponibles en Côte d'Ivoire.</p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div class="bg-green-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
-                            <span class="text-2xl font-bold text-green-600">2</span>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center card-orange">
+                        <div class="bg-orange-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
+                            <span class="text-2xl font-bold text-orange-600">2</span>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Complétez votre identification</h3>
-                        <p class="text-gray-600">Fournissez vos informations personnelles ou celles de votre entreprise pour créer votre dossier.</p>
+                        <p class="text-gray-600">Fournissez vos informations personnelles ou celles de votre entreprise
+                            pour créer votre dossier.</p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div class="bg-green-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
-                            <span class="text-2xl font-bold text-green-600">3</span>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center card-orange">
+                        <div class="bg-orange-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
+                            <span class="text-2xl font-bold text-orange-600">3</span>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Sélectionnez votre parcelle</h3>
-                        <p class="text-gray-600">Choisissez le type de parcelle et l'emplacement qui conviennent à votre projet.</p>
+                        <p class="text-gray-600">Choisissez le type de parcelle et l'emplacement qui conviennent à votre
+                            projet.</p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div class="bg-green-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
-                            <span class="text-2xl font-bold text-green-600">4</span>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center card-orange">
+                        <div class="bg-orange-100 mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4">
+                            <span class="text-2xl font-bold text-orange-600">4</span>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Effectuez le paiement</h3>
-                        <p class="text-gray-600">Payez les frais de souscription par mobile money et recevez votre quittance.</p>
+                        <p class="text-gray-600">Payez les frais de souscription par mobile money et recevez votre
+                            quittance.</p>
                     </div>
                 </div>
 
                 <div class="text-center mt-12">
-                    <a href="index.php?page=souscrire" class="btn-anuttc">
+                    <a href="index.php?page=souscrire" class="btn-afor">
                         <i class="fas fa-check-circle mr-2"></i>Je commence ma souscription
                     </a>
                 </div>
@@ -366,51 +432,55 @@
         <!-- Section Pourquoi nous choisir -->
         <section id="pourquoi-nous" class="py-12 md:py-20">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl font-bold text-center mb-12">Pourquoi choisir ANUTTC</h2>
+                <h2 class="text-3xl font-bold text-center mb-12">Pourquoi choisir CÔTE D'IVOIRE</h2>
 
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-shield-alt text-3xl text-green-600"></i>
+                        <div class="h-20 w-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-shield-alt text-3xl text-orange-600"></i>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Sécurité juridique</h3>
-                        <p class="text-gray-600">Tous nos terrains disposent d'une documentation légale complète, vous assurant une sécurité juridique totale pour votre investissement.</p>
+                        <p class="text-gray-600">Tous nos terrains disposent d'une documentation légale complète, vous
+                            assurant une sécurité juridique totale pour votre investissement en Côte d'Ivoire.</p>
                     </div>
 
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-road text-3xl text-green-600"></i>
+                        <div class="h-20 w-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-road text-3xl text-orange-600"></i>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Terrains viabilisés</h3>
-                        <p class="text-gray-600">Nos parcelles sont aménagées avec des voies d'accès et prédisposées au raccordement aux réseaux d'eau et d'électricité.</p>
+                        <p class="text-gray-600">Nos parcelles rurales sont aménagées avec des voies d'accès et
+                            prédisposées au
+                            raccordement aux réseaux d'eau et d'électricité.</p>
                     </div>
 
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-hand-holding-usd text-3xl text-green-600"></i>
+                        <div class="h-20 w-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-hand-holding-usd text-3xl text-orange-600"></i>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Prix compétitifs</h3>
-                        <p class="text-gray-600">Nous proposons des parcelles à des tarifs accessibles avec des options de paiement adaptées à vos possibilités.</p>
+                        <p class="text-gray-600">Nous proposons des parcelles rurales à des tarifs accessibles avec des
+                            options
+                            de paiement adaptées à vos possibilités.</p>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 p-8 rounded-lg shadow-md mt-16 flex flex-col md:flex-row items-center">
+                <div class="bg-orange-50 p-8 rounded-lg shadow-md mt-16 flex flex-col md:flex-row items-center">
                     <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                         <h3 class="text-2xl font-bold text-gray-800 mb-4">Ils nous font confiance</h3>
                         <p class="text-gray-600 mb-4">
-                            Rejoignez les milliers de familles et d'entreprises qui ont fait confiance à ANUTTC pour leur projet immobilier. Notre expérience et notre professionnalisme font de nous le partenaire idéal pour concrétiser votre rêve d'accès à la propriété.
+                            Rejoignez les milliers d'agriculteurs, d'éleveurs et d'entreprises ivoiriennes qui ont fait
+                            confiance à CÔTE D'IVOIRE
+                            pour leur projet en milieu rural. Notre expérience et notre professionnalisme font de nous
+                            le
+                            partenaire idéal pour concrétiser votre rêve d'accès à la propriété foncière rurale.
                         </p>
                         <div class="flex items-center">
-                            <div class="flex -space-x-2">
-                                <img src="assets/images/testimonial-1.jpg" alt="Client" class="h-10 w-10 rounded-full border-2 border-white">
-                                <img src="assets/images/testimonial-2.jpg" alt="Client" class="h-10 w-10 rounded-full border-2 border-white">
-                                <img src="assets/images/testimonial-3.jpg" alt="Client" class="h-10 w-10 rounded-full border-2 border-white">
-                            </div>
-                            <span class="ml-4 text-sm text-gray-500">Plus de 10 000 clients satisfaits</span>
+                            <span class="ml-4 text-sm text-gray-500">Plus de 3 000 clients satisfaits</span>
                         </div>
                     </div>
                     <div class="md:w-1/2 grid grid-cols-2 gap-4">
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg card-orange">
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
@@ -418,10 +488,11 @@
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
                             </div>
-                            <p class="text-gray-600 text-sm">"Processus simple et rapide. J'ai pu acquérir ma parcelle en toute sécurité."</p>
-                            <p class="text-gray-800 font-medium mt-2">- Ousmane D.</p>
+                            <p class="text-gray-600 text-sm">"Processus simple et rapide. J'ai pu acquérir ma parcelle
+                                agricole en toute sécurité."</p>
+                            <p class="text-gray-800 font-medium mt-2">- Kouamé A.</p>
                         </div>
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg card-orange">
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
@@ -429,10 +500,11 @@
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
                             </div>
-                            <p class="text-gray-600 text-sm">"Un excellent accompagnement du début à la fin. Merci ANUTTC !"</p>
-                            <p class="text-gray-800 font-medium mt-2">- Mariam K.</p>
+                            <p class="text-gray-600 text-sm">"Un excellent accompagnement du début à la fin. Merci CÔTE D'IVOIRE
+                                !"</p>
+                            <p class="text-gray-800 font-medium mt-2">- Aïcha T.</p>
                         </div>
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg card-orange">
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
@@ -440,10 +512,11 @@
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star-half-alt text-yellow-400"></i>
                             </div>
-                            <p class="text-gray-600 text-sm">"Des parcelles bien situées et un personnel professionnel."</p>
-                            <p class="text-gray-800 font-medium mt-2">- Ibrahim T.</p>
+                            <p class="text-gray-600 text-sm">"Des parcelles bien situées et un personnel professionnel."
+                            </p>
+                            <p class="text-gray-800 font-medium mt-2">- Jean-Baptiste K.</p>
                         </div>
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg card-orange">
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
@@ -451,51 +524,62 @@
                                 <i class="fas fa-star text-yellow-400"></i>
                                 <i class="fas fa-star text-yellow-400"></i>
                             </div>
-                            <p class="text-gray-600 text-sm">"La meilleure décision que j'ai prise pour investir dans l'immobilier."</p>
-                            <p class="text-gray-800 font-medium mt-2">- Fatou S.</p>
+                            <p class="text-gray-600 text-sm">"La meilleure décision que j'ai prise pour investir dans
+                                l'agriculture."</p>
+                            <p class="text-gray-800 font-medium mt-2">- Fatou D.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section Contact - CARTE CORRIGÉE -->
-        <section id="contact" class="py-12 md:py-20 bg-gray-50 -mx-4 px-4">
+        <!-- Section Contact -->
+        <section id="contact" class="py-12 md:py-20 bg-orange-50 -mx-4 px-4">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-3xl font-bold text-center mb-12">Contactez-nous</h2>
 
                 <div class="grid md:grid-cols-2 gap-12">
                     <div>
-                        <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="bg-white p-8 rounded-lg shadow-md card-orange">
                             <h3 class="text-xl font-bold text-gray-800 mb-6">Envoyez-nous un message</h3>
 
                             <form action="index.php?page=contact" method="post" class="space-y-4">
                                 <div>
                                     <label for="nom" class="block text-gray-700 mb-2">Nom complet</label>
-                                    <input type="text" id="nom" name="nom" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                                    <input type="text" id="nom" name="nom"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        required>
                                 </div>
 
                                 <div>
                                     <label for="email" class="block text-gray-700 mb-2">Adresse e-mail</label>
-                                    <input type="email" id="email" name="email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                                    <input type="email" id="email" name="email"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        required>
                                 </div>
 
                                 <div>
                                     <label for="telephone" class="block text-gray-700 mb-2">Téléphone</label>
-                                    <input type="tel" id="telephone" name="telephone" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                                    <input type="tel" id="telephone" name="telephone"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        required>
                                 </div>
 
                                 <div>
                                     <label for="sujet" class="block text-gray-700 mb-2">Sujet</label>
-                                    <input type="text" id="sujet" name="sujet" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                                    <input type="text" id="sujet" name="sujet"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        required>
                                 </div>
 
                                 <div>
                                     <label for="message" class="block text-gray-700 mb-2">Message</label>
-                                    <textarea id="message" name="message" rows="4" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required></textarea>
+                                    <textarea id="message" name="message" rows="4"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        required></textarea>
                                 </div>
 
-                                <button type="submit" class="btn-anuttc w-full">
+                                <button type="submit" class="btn-afor w-full">
                                     <i class="fas fa-paper-plane mr-2"></i>Envoyer le message
                                 </button>
                             </form>
@@ -503,40 +587,45 @@
                     </div>
 
                     <div>
-                        <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+                        <div class="bg-white p-8 rounded-lg shadow-md mb-8 card-orange">
                             <h3 class="text-xl font-bold text-gray-800 mb-6">Coordonnées</h3>
 
                             <div class="space-y-4">
                                 <div class="flex items-start">
-                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                        <i class="fas fa-map-marker-alt text-green-600"></i>
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-orange-600"></i>
                                     </div>
                                     <div class="ml-4">
                                         <h4 class="text-lg font-medium text-gray-800">Adresse</h4>
-                                        <p class="text-gray-600">Boulevard Léon M'Ba, Libreville, Gabon</p>
+                                        <p class="text-gray-600">Ministère de l'Agriculture et du Développement Rural,
+                                            Abidjan</p>
                                     </div>
                                 </div>
                                 <div class="flex items-start">
-                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                        <i class="fas fa-phone-alt text-green-600"></i>
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                        <i class="fas fa-phone-alt text-orange-600"></i>
                                     </div>
                                     <div class="ml-4">
                                         <h4 class="text-lg font-medium text-gray-800">Téléphone</h4>
-                                        <p class="text-gray-600">+241 07 12 34 56</p>
+                                        <p class="text-gray-600">+225 05 96 58 28 65</p>
                                     </div>
                                 </div>
                                 <div class="flex items-start">
-                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                        <i class="fas fa-envelope text-green-600"></i>
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                        <i class="fas fa-envelope text-orange-600"></i>
                                     </div>
                                     <div class="ml-4">
                                         <h4 class="text-lg font-medium text-gray-800">Email</h4>
-                                        <p class="text-gray-600">contact@anuttc.ga</p>
+                                        <p class="text-gray-600">contact@afor.ci</p>
                                     </div>
                                 </div>
                                 <div class="flex items-start">
-                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                        <i class="fas fa-clock text-green-600"></i>
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                        <i class="fas fa-clock text-orange-600"></i>
                                     </div>
                                     <div class="ml-4">
                                         <h4 class="text-lg font-medium text-gray-800">Heures d'ouverture</h4>
@@ -546,14 +635,13 @@
                             </div>
                         </div>
 
-                        <!-- Carte Google Maps - CORRIGÉE AVEC BONNES DIMENSIONS -->
-                        <div class="bg-white p-4 rounded-lg shadow-md">
+                        <!-- Carte Google Maps -->
+                        <div class="bg-white p-4 rounded-lg shadow-md card-orange">
                             <h3 class="text-lg font-bold text-gray-800 mb-4">Notre localisation</h3>
                             <div class="map-container">
-                                <iframe 
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.7234567890123!2d9.4507!3d0.3964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x107f5b0a4c8c5555%3A0xabc123def456789!2sLibreville%2C%20Gabon!5e0!3m2!1sfr!2sgb!4v1634567890123!5m2!1sfr!2sgb" 
-                                    allowfullscreen 
-                                    loading="lazy" 
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.159685693286!2d-4.008949!3d5.3599517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1eb6d5c5c5c5c%3A0x5c5c5c5c5c5c5c5c!2sMinist%C3%A8re%20de%20l&#39;Agriculture%20et%20du%20D%C3%A9veloppement%20Rural%2C%20Abidjan%2C%20C%C3%B4te%20d&#39;Ivoire!5e0!3m2!1sfr!2sci!4v1758534712892!5m2!1sfr!2sci"
+                                    width="600" height="350" style="border:0;" allowfullscreen="" loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade">
                                 </iframe>
                             </div>
@@ -568,9 +656,10 @@
         <div class="max-w-7xl mx-auto px-6 py-12 lg:px-8">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">SOUSCRIPTION ANUTTC</h3>
+                    <h3 class="text-lg font-semibold mb-4">SOUSCRIPTION CÔTE D'IVOIRE</h3>
                     <p class="text-gray-400">
-                        L'Agence Nationale d'Urbanisme et de Travaux de Terrassement et de Construction, votre partenaire de confiance pour l'accès à la propriété foncière.
+                        Agence Foncière Rurale, votre partenaire de confiance pour l'accès à la
+                        propriété foncière rurale en Côte d'Ivoire.
                     </p>
                 </div>
 
@@ -578,16 +667,21 @@
                     <h3 class="text-lg font-semibold mb-4">Liens rapides</h3>
                     <ul class="space-y-2">
                         <li>
-                            <a href="index.php?page=apropos" class="text-gray-400 hover:text-white transition-colors">À propos</a>
+                            <a href="index.php?page=apropos"
+                                class="text-gray-400 hover:text-orange-300 transition-colors">À
+                                propos</a>
                         </li>
                         <li>
-                            <a href="index.php?page=souscrire" class="text-gray-400 hover:text-white transition-colors">Comment souscrire</a>
+                            <a href="index.php?page=souscrire"
+                                class="text-gray-400 hover:text-orange-300 transition-colors">Comment souscrire</a>
                         </li>
                         <li>
-                            <a href="index.php#pourquoi-nous" class="text-gray-400 hover:text-white transition-colors">Pourquoi nous choisir</a>
+                            <a href="index.php#pourquoi-nous"
+                                class="text-gray-400 hover:text-orange-300 transition-colors">Pourquoi nous choisir</a>
                         </li>
                         <li>
-                            <a href="index.php?page=contact" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+                            <a href="index.php?page=contact"
+                                class="text-gray-400 hover:text-orange-300 transition-colors">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -595,18 +689,19 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Contact</h3>
                     <ul class="space-y-2 text-gray-400">
-                        <li>Tél: +241 07 12 34 56</li>
-                        <li>Email: contact@anuttc.ga</li>
-                        <li>Boulevard Léon M'Ba</li>
-                        <li>Libreville</li>
+                        <li>Tél: +225 05 96 58 28 65</li>
+                        <li>Email: contact@afor.ci</li>
+                        <li>Ministère de l'Agriculture et du Développement Rural</li>
+                        <li>Abidjan, Côte d'Ivoire</li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Suivez-nous</h3>
-                    <p class="text-gray-400 mb-4">Abonnez-vous à notre page Facebook pour suivre toutes nos actualités</p>
+                    <p class="text-gray-400 mb-4">Abonnez-vous à notre page Facebook pour suivre toutes nos actualités
+                    </p>
                     <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/AnuttcOfficiel/"
+                        <a href="https://www.facebook.com/afor.cotedivoire"
                             class="text-gray-400 hover:text-white transition-colors" aria-label="Facebook"
                             target="_blank" rel="noopener noreferrer">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor"
@@ -621,22 +716,22 @@
             </div>
 
             <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-                <p>© 2025 ANUTTC. Tous droits réservés.</p>
+                <p>© 2025 CÔTE D'IVOIRE. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const header = document.querySelector('header');
-            
-            window.addEventListener('scroll', function() {
+
+            window.addEventListener('scroll', function () {
                 if (window.scrollY > 50) {
-                    header.style.backgroundColor = 'rgba(139, 105, 20, 0.95)';
+                    header.style.backgroundColor = 'rgba(27, 94, 32, 0.95)';
                 } else {
-                    header.style.backgroundColor = '#8B6914';
+                    header.style.backgroundColor = '#1B5E20';
                 }
             });
 
@@ -650,18 +745,18 @@
 
             mobileMenuButton.addEventListener('click', toggleMenu);
         });
-        
+
         // Gestion de l'écran de chargement
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.getElementById('loading-screen');
-            
+
             // S'assurer que l'écran de chargement est visible au début
             loadingScreen.style.display = 'flex';
             loadingScreen.style.opacity = '1';
 
             // Attendre que tout soit chargé
-            window.addEventListener('load', function() {
-                setTimeout(function() {
+            window.addEventListener('load', function () {
+                setTimeout(function () {
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
@@ -681,4 +776,5 @@
     </script>
 
 </body>
+
 </html>
