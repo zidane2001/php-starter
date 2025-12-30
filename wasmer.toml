@@ -1,0 +1,21 @@
+[package]
+name = "cote-ivoire"
+version = "0.1.0"
+description = "PHP application for Côte d'Ivoire site"
+
+[dependencies]
+php = "8.2"
+
+[fs]
+/app = "."
+
+[command]
+name = "run"
+module = "php:8.2"
+runner = "wasi"
+
+[command.args]
+- "-S"
+- "0.0.0.0:8080"
+- "-t"
+- "/app"
